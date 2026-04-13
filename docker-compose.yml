@@ -3,7 +3,6 @@ services:
     build: .
     container_name: openclaw-gateway
 
-    # 👇 FIX permission ngay khi start
     user: root
 
     environment:
@@ -20,7 +19,7 @@ services:
       [
         "sh",
         "-c",
-        "chown -R node:node /home/node/.openclaw && su node -c 'node dist/index.js gateway --bind lan --port 18789 --allow-unconfigured'"
+        "chown -R node:node /home/node/.openclaw && su node -c 'node dist/index.js gateway --bind lan --port 18789 --allow-unconfigured --control-ui-allowed-origins http://openclaw.aiautomationv001.fun'"
       ]
 
     restart: unless-stopped
@@ -28,8 +27,8 @@ services:
     labels:
       - "traefik.enable=true"
 
-      # 🔥 ĐỔI DOMAIN TẠI ĐÂY
-      - "traefik.http.routers.openclaw.rule=Host(`openclaw.aiautomationv001.fun`)"
+      # 🔥 đổi domain tại đây
+      - "traefik.http.routers.openclaw.rule=Host(`http://openclaw.aiautomationv001.fun`)"
 
       - "traefik.http.routers.openclaw.entrypoints=websecure"
       - "traefik.http.routers.openclaw.tls=true"
