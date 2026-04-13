@@ -16,11 +16,16 @@ services:
       - openclaw_workspace:/home/node/.openclaw/workspace
 
     command:
-      [
-        "sh",
-        "-c",
-        "mkdir -p /home/node/.openclaw && echo '{\"gateway\":{\"mode\":\"local\",\"controlUi\":{\"allowedOrigins\":[\"https://openclaw.yourdomain.com\"]}}}' > /home/node/.openclaw/openclaw.json && chown -R node:node /home/node/.openclaw && su node -c 'node dist/index.js gateway --bind lan --port 18789'"
-      ]
+        [
+          "sh",
+          "-c",
+          "mkdir -p /home/node/.openclaw && \
+          if [ ! -f /home/node/.openclaw/openclaw.json ]; then \
+            echo '{\"gateway\":{\"mode\":\"local\",\"controlUi\":{\"allowedOrigins\":[\"*\"]}}}' > /home/node/.openclaw/openclaw.json; \
+          fi && \
+          chown -R node:node /home/node/.openclaw && \
+          su node -c 'node dist/index.js gateway --bind lan --port 18789'"
+        ]
 
     restart: unless-stopped
 
