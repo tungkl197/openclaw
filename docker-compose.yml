@@ -19,7 +19,7 @@ services:
       [
         "sh",
         "-c",
-        "chown -R node:node /home/node/.openclaw && su node -c 'node dist/index.js gateway --bind lan --port 18789 --allow-unconfigured --control-ui-allowed-origins http://openclaw.aiautomationv001.fun'"
+        "mkdir -p /home/node/.openclaw && echo '{\"gateway\":{\"mode\":\"local\",\"controlUi\":{\"allowedOrigins\":[\"https://openclaw.yourdomain.com\"]}}}' > /home/node/.openclaw/openclaw.json && chown -R node:node /home/node/.openclaw && su node -c 'node dist/index.js gateway --bind lan --port 18789'"
       ]
 
     restart: unless-stopped
